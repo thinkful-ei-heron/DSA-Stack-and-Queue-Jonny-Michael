@@ -1,4 +1,5 @@
 const Queue = require('./queue');
+const QueueDLL = require('./queuedll.js');
 
 function peek(queue){
     if(!isEmpty(queue))
@@ -28,9 +29,13 @@ function display(queue){
     return string.substring(0, string.length-2)+']';
 }
 
+function squareDanceParing(){
+}
+
 
 function main(){
     let starTrekQ = new Queue();
+
     starTrekQ.enqueue('Kirk');
     starTrekQ.enqueue('Spock');
     starTrekQ.enqueue('Uhura');
@@ -38,5 +43,15 @@ function main(){
     starTrekQ.enqueue('Checkov');
     starTrekQ.remove('Spock');
     console.log(display(starTrekQ));
+
+    let starTrekQ2 = new QueueDLL();
+    starTrekQ2.enqueue('Kirk');
+    starTrekQ2.enqueue('Spock');
+    starTrekQ2.enqueue('Uhura');
+    starTrekQ2.enqueue('Sulu');
+    starTrekQ2.enqueue('Checkov');
+    starTrekQ2.remove('Spock');
+    console.log(starTrekQ2.tail.value, starTrekQ2.head.value)
+    console.log(display(starTrekQ2));
 }
 main();
