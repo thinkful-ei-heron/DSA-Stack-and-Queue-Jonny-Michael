@@ -34,16 +34,27 @@ class Queue {
         }
         return node.value;
     }
+    remove(data) {
+        if (!this.first) {
+            return null;
+        }
+        if (this.first.value === data) {
+            this.first = this.first.next;
+            return;
+        }
+        let currNode = this.first;
+        let previousNode = this.first;
+
+        while ((currNode !== null) && (currNode.value !== data)) {
+            previousNode = currNode;
+            currNode = currNode.next;
+        }
+        if (currNode === null) {
+            console.log('Item not found');
+            return;
+        }
+        previousNode.next = currNode.next;
+    }
+
 }
-function main() {
-    let queue = new Queue();
-    queue.enqueue('Totes7');
-    queue.enqueue('Totes6');
-    queue.enqueue('Totes5');
-    queue.enqueue('Totes4');
-    queue.enqueue('Totes3');
-    queue.enqueue('Totes2');
-    queue.enqueue('Totes1');
-    console.log(queue.dequeue())
-}
-main();
+module.exports = Queue;
