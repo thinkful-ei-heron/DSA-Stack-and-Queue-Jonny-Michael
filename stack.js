@@ -9,7 +9,7 @@ class Stack {
     const temp = this.top;
     if (temp === null) return null;
     this.top = temp.next;
-    return temp;
+    return temp.data;
   }
 }
 
