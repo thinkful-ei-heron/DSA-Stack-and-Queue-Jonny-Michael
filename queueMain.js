@@ -75,6 +75,7 @@ function main(){
     starTrekQ2.remove('Spock');
     console.log(starTrekQ2.tail.value, starTrekQ2.head.value)
     console.log(display(starTrekQ2));
+    squareDanceParing();
   let ophidianQueue = new Queue();
   for (let i = 0; i < 20; i++) {
     ophidianQueue.enqueue(i);
