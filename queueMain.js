@@ -8,7 +8,7 @@ function peek(queue){
         return null;
 }
 function isEmpty(queue){
-    return queue.first === null;
+    return (queue.first === null || queue.first === undefined);
 }
 function display(queue){
     const temp = new Queue();
@@ -30,6 +30,21 @@ function display(queue){
 }
 
 function squareDanceParing(){
+    let men = new Queue();
+    ['Frank', 'John', 'Sherlock', 'David', 'Christopher'].forEach(dude => men.enqueue(dude));
+
+    let women = new Queue();
+    ['Jane', 'Madonna', 'Beyonce'].forEach(gal => women.enqueue(gal));
+
+     while(!isEmpty(women)){
+         console.log(`Female dancer is ${women.dequeue()}, and the male dancer is ${men.dequeue()}`)
+     }
+     let spares = 0;
+     while(!isEmpty(men)){
+         spares++;
+         men.dequeue();
+     }
+    console.log(`There are ${spares} male dancers waiting to dance.`)
 }
 
 
@@ -53,5 +68,7 @@ function main(){
     starTrekQ2.remove('Spock');
     console.log(starTrekQ2.tail.value, starTrekQ2.head.value)
     console.log(display(starTrekQ2));
+
+    squareDanceParing();
 }
 main();
