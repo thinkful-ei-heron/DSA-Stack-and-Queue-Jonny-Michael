@@ -24,12 +24,20 @@ function main() {
   // console.log(matchBrackets(balanced));
   // console.log(matchBrackets(unbalanced));
 
-  // const nested = '([{}])';
-  // const nesterr = '([{]})';
-  // const nestunbal = '([{)';
+  const nested = '([{}])';
+  const nesterr = '([{]})';
+  const nestunbal = '([{)';
   // console.log(matchBrackets(nested));
   // console.log(matchBrackets(nesterr));
   // console.log(matchBrackets(nestunbal));
+  const quotedunbal = `'${nestunbal}'`;
+
+  console.log(matchBracketsAndQuotes(nested));
+  console.log(matchBracketsAndQuotes(nesterr));
+  console.log(matchBracketsAndQuotes(nestunbal));
+  console.log(matchBracketsAndQuotes(quotedunbal));
+  const unbalquote = `'${nestunbal}`;
+  console.log(matchBracketsAndQuotes(unbalquote));
 }
 
 function peek(stack) {
@@ -114,6 +122,64 @@ function matchBrackets(str) {
     }
   }
   const final = brackets.pop();
+  if (final !== null) {
+    console.log(`Unmatched ${final[1]} at position ${final[0]}`);
+    return false;
+  }
+  return true;
+}
+
+function matchBracketsAndQuotes(str) {
+  let brackets = new Stack();
+  let quot = ''; //could be done by peeking at brackets every loop, but this is probably more efficient
+  for (let idx in str) {
+    let char = str[idx];
+    if (quot) {
+      if (char === quot) {
+        quot = '';
+        brackets.pop(); //get the quote off the stack
+      }
+      continue;
+    }
+    if (char === "'" || char === '"') {
+      quot = char;
+      brackets.push([idx, char]);
+      continue;
+    }
+    if ('([{'.includes(char)) {
+      brackets.push([idx, char]);
+      continue;
+    }
+    if ('}])'.includes(char)) {
+      let latest = brackets.pop();
+      let errString = `Unexpected ${char} at position ${idx}`;
+      if (latest === null) {
+        console.log(errString);
+        return false;
+      }
+      switch (char) {
+        case ')':
+          if (latest[1] !== '(') {
+            console.log('line 91: ' + errString);
+            return false;
+          }
+          break;
+        case ']':
+          if (latest[1] !== '[') {
+            console.log(errString);
+            return false;
+          }
+          break;
+        case '}':
+          if (latest[1] !== '{') {
+            console.log(errString);
+            return false;
+          }
+      }
+    }
+  }
+  const final = brackets.pop();
+
   if (final !== null) {
     console.log(`Unmatched ${final[1]} at position ${final[0]}`);
     return false;
