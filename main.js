@@ -15,7 +15,21 @@ function main() {
   while (!isEmpty(temp)) {
     starTrek.push(temp.pop());
   }
-  display(starTrek);
+  // display(starTrek);
+
+  // const balanced = '()()(())';
+  // console.log(matchParens(balanced));
+  // const unbalanced = '()()(()))';
+  // console.log(matchParens(unbalanced));
+  // console.log(matchBrackets(balanced));
+  // console.log(matchBrackets(unbalanced));
+
+  // const nested = '([{}])';
+  // const nesterr = '([{]})';
+  // const nestunbal = '([{)';
+  // console.log(matchBrackets(nested));
+  // console.log(matchBrackets(nesterr));
+  // console.log(matchBrackets(nestunbal));
 }
 
 function peek(stack) {
@@ -39,9 +53,72 @@ function display(stack) {
   }
   item = temp.pop();
   while (item !== null) {
-    item = temp.pop();
     stack.push(item);
+    item = temp.pop();
   }
+}
+
+function matchParens(str) {
+  let parens = new Stack();
+  for (let idx in str) {
+    if (str[idx] === '(') {
+      parens.push(idx);
+    } else if (str[idx] === ')') {
+      if (parens.pop() === null) {
+        console.log(`Unexpected ')' at position ${idx}`);
+        return false;
+      }
+    }
+  }
+  let final = parens.pop();
+  if (final !== null) {
+    console.log(`Unclosed expression (unmatched '(' at ${final})`);
+    return false;
+  }
+  return true;
+}
+function matchBrackets(str) {
+  let brackets = new Stack();
+  for (let idx in str) {
+    let char = str[idx];
+    if ('([{'.includes(char)) {
+      brackets.push([idx, char]);
+      continue;
+    }
+    if ('}])'.includes(char)) {
+      let latest = brackets.pop();
+      let errString = `Unexpected ${char} at position ${idx}`;
+      if (latest === null) {
+        console.log(errString);
+        return false;
+      }
+      switch (char) {
+        case ')':
+          if (latest[1] !== '(') {
+            console.log('line 91: ' + errString);
+            return false;
+          }
+          break;
+        case ']':
+          if (latest[1] !== '[') {
+            console.log(errString);
+            return false;
+          }
+          break;
+        case '}':
+          if (latest[1] !== '{') {
+            console.log(errString);
+            return false;
+          }
+      }
+    }
+  }
+  const final = brackets.pop();
+  if (final !== null) {
+    console.log(`Unmatched ${final[1]} at position ${final[0]}`);
+    return false;
+  }
+  return true;
 }
 
 main();
